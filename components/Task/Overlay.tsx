@@ -33,9 +33,17 @@ const TaskOverlay: FC<taskOverlayProps> = (props) => {
   };
 
   return (
-    <Modal centered title="Create New Task" open={open} onCancel={toggle} onOk={handleCreateTask} okText="Create">
+    <Modal
+      centered
+      title="Create New Task"
+      open={open}
+      onCancel={toggle}
+      onOk={handleCreateTask}
+      okText="Create"
+      okButtonProps={{ disabled: title.trim().length === 0 }}
+    >
       <Flex vertical gap={10}>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <Input placeholder="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <Select<ITask["status"]> value={status} onChange={(newStatus) => setStatus(newStatus)}>
           {taskStatusOptions.map((status) => (
             <Select.Option key={status} value={status}>

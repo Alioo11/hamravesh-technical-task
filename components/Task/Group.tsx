@@ -1,7 +1,6 @@
-
 import { Card, Flex, Typography } from "antd";
-import TaskCard from "./Card";
 import { Else, If, Then } from "@/components/kits/ConditonalRendering";
+import TaskCard from "./Card";
 import type { FC } from "react";
 import type { ITask } from "@/types/task";
 
@@ -16,13 +15,17 @@ const TaskGroup: FC<TaskGroupProps> = (props) => {
   const isEmpty = tasks.length === 0;
 
   return (
-    <Card color="primary" title={title} bordered={false} style={{minWidth:300}}>
+    <Card
+      styles={{ header: { borderBottom: "solid 1px grey" } }}
+      title={title}
+      style={{ minWidth: 300, height: "fit-content" }}
+    >
       <If condition={isEmpty}>
         <Then>
-          <Typography style={{color:"grey"}}>empty</Typography>
+          <Typography style={{ color: "grey" }}>Empty</Typography>
         </Then>
         <Else>
-          <Flex gap={10} vertical style={{overflowX:"auto", maxHeight:600}}>
+          <Flex gap={10} vertical style={{ overflowX: "auto", maxHeight: 550 }}>
             {tasks.map((task) => {
               return <TaskCard task={task} key={task.id} />;
             })}

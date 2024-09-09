@@ -5,8 +5,6 @@ import useToggle from "@/hooks/useToggle";
 import TaskService from "@/services/tasks";
 import { ITask } from "@/types/task";
 import { Button, Flex, Input } from "antd";
-import { time } from "console";
-import { todo } from "node:test";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Nullable } from "ts-wiz";
 
@@ -16,6 +14,7 @@ const TasksPage = () => {
   const [isOpenOverlay, toggleOpenOverlay] = useToggle(false);
 
   const timeoutId = useRef<Nullable<NodeJS.Timeout>>(null);
+  const hasMounted = useRef<boolean>(false);
 
   const fetchTasks = async () => {
     try {
@@ -47,8 +46,11 @@ const TasksPage = () => {
   }, []);
 
   useEffect(() => {
-    timeoutId.current = setTimeout(fetchTasks, DEBOUNCE_TIMEOUT_IN_MS);
-    return clearSearchTimeout;
+    if (!hasMounted.current) hasMounted.current = true;
+    else {
+      timeoutId.current = setTimeout(fetchTasks, DEBOUNCE_TIMEOUT_IN_MS);
+      return clearSearchTimeout;
+    }
   }, [search]);
 
   return (
@@ -56,13 +58,19 @@ const TasksPage = () => {
       <TaskOverlay open={isOpenOverlay} toggle={toggleOpenOverlay} onCreate={createTaskCb} />
       <Flex vertical gap={10}>
         <Flex gap={20} justify="space-between">
-          <Input variant="filled" placeholder="search..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input
+            variant="outlined"
+            placeholder="search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ width: 400 }}
+          />
           <Button onClick={toggleOpenOverlay}>Create New Task</Button>
         </Flex>
         <Flex gap={10} style={{ overflowY: "auto" }}>
-          <TaskGroup tasks={todoTasks} title="todo" />
-          <TaskGroup tasks={doingTasks} title="doing" />
-          <TaskGroup tasks={doneTasks} title="done" />
+          <TaskGroup tasks={todoTasks} title="To-Do" />
+          <TaskGroup tasks={doingTasks} title="Doing" />
+          <TaskGroup tasks={doneTasks} title="Done" />
         </Flex>
       </Flex>
     </>
