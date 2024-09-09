@@ -8,7 +8,6 @@ interface taskListParams {
 
 const getTaskList = async (params: taskListParams = {}): Promise<Array<ITask>> => {
   const response = await axios.get<Array<ITask>>("api/task", {
-    method: "GET",
     params: params,
   });
 
