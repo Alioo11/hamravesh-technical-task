@@ -1,1 +1,2 @@
 export const DEBOUNCE_TIMEOUT_IN_MS = 1000;
+export const TRUNCATE_TEXT_LENGTH = 20
