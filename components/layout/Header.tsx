@@ -6,9 +6,9 @@ const { Header } = Layout;
 const HeaderLayout = () => {
   const { toggleTheme, isDarkMode } = useTheme();
   return (
-    <Header style={{ display: "flex", alignItems: "center" }}>
+    <Header style={{ borderBottom: "solid 1px grey" }}>
       <Space direction="horizontal">
-        <Switch checked={isDarkMode} onChange={toggleTheme} checkedChildren="Dark" unCheckedChildren="Light" />
+        <Switch checked={isDarkMode} onChange={toggleTheme} checkedChildren="Light" unCheckedChildren="Dark" />
       </Space>
     </Header>
   );
